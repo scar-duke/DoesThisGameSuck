@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.4.0">
+    <title>Registation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="JS/Script1.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">
+                Does This Game Suck?
+            </a>
+            <div class="navbar-brand">Registation</div>
+        </nav>
+    </header>
+    <br>
+    <form>
+        <div class="form-group offset-md-4 col-4 pl-0">
+            <label for="user">User Name</label>
+            <input type="text" class="form-control" id="user">
+            <div class="form-error alert alert-danger" id="usere">
+                The username must contain at least 3 characters.
+            </div>
+        </div>
+        <br>
+        <div class="form-group offset-md-4 col-4 pl-0">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="pass">
+            <div class="form-error alert alert-danger" id="passerror">
+                The password must have 8 letters.
+            </div>
+        </div>
+        <div class="form-group form-group  offset-md-4 col-4 pl-0">
+            <label for="affiliation">Gender</label>
+            <select class="custom-select" id="gender">
+                <option label=" "></option>
+                <option class="bg-secondary">Male</option>
+                <option>Female</option>
+            </select>            <div class="form-error alert alert-danger" id="gendererror">
+                One option must be selected.
+            </div>
+        </div>
+        <br>
+
+        <br>
+        <div class="form-group offset-md-4 col-4 pl-0">
+            <label for="email">Email Address</label>
+            <input class="form-control" type="text" id="email">
+            <div class="form-error alert alert-danger" id="emailerror">
+                A email is required.
+            </div>
+        </div>
+        
+        <br>
+        <button type="submit" class="btn btn-primary offset-md-4">Submit</button>
+    </form>
+
+</body>
+</html>
+

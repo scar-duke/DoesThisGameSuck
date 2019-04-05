@@ -1,1 +1,1 @@
-# DoesThisGameSuck.com
+# DoesThisGameSuck

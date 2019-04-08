@@ -113,6 +113,7 @@ public class Login {
 		usename.setColumns(10);
 		
 		password = new JPasswordField();
+		password.setEchoChar('*');
 		password.setBounds(160, 167, 264, 23);
 		frame.getContentPane().add(password);
 		

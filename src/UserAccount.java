@@ -25,6 +25,8 @@ public class UserAccount {
 		reviewedGame.reviews.add(newReview);
 		reviewsHistory.add(newReview);
 		
+		reviewedGame.averageRating();
+		
 		return true;
 	}
 	

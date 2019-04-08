@@ -14,4 +14,15 @@ public class Game {
 	
 	public String youtubeLink;
 	
+	public void averageRating(){
+		int total = 0;
+		
+		for (Review r : reviews){
+			total += r.rating;
+		}
+		
+		int avg = total/reviews.size();
+		
+		rating = avg;
+	}
 }

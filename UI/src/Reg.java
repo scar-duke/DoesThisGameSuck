@@ -1,24 +1,26 @@
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
 
-public class Reg {
+public class Reg extends JFrame {
 
-	private JFrame frame;
+	private JPanel contentPane;
 	private JTextField username;
-	private JTextField password;
+	private JPasswordField password;
 
 	/**
 	 * Launch the application.
@@ -27,8 +29,8 @@ public class Reg {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Reg window = new Reg();
-					window.frame.setVisible(true);
+					Reg frame = new Reg();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -38,49 +40,41 @@ public class Reg {
 
 	Connection connection=null;
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public Reg() {
-		initialize();
 		connection=connect.dbConnector();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 611, 422);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		JLabel reg = new JLabel("Register");
-		reg.setFont(new Font("Tahoma", Font.BOLD, 13));
-		reg.setBounds(176, 11, 66, 39);
-		frame.getContentPane().add(reg);
-		
-		username = new JTextField();
-		username.setBounds(156, 77, 171, 20);
-		frame.getContentPane().add(username);
-		username.setColumns(10);
+		JLabel lblRegistor = new JLabel("Registor");
+		lblRegistor.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblRegistor.setBounds(237, 40, 123, 35);
+		contentPane.add(lblRegistor);
 		
 		JLabel lblUsername = new JLabel("Username");
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblUsername.setBounds(76, 80, 48, 14);
-		frame.getContentPane().add(lblUsername);
+		lblUsername.setBounds(110, 119, 78, 16);
+		contentPane.add(lblUsername);
+		
+		username = new JTextField();
+		username.setBounds(218, 116, 196, 22);
+		contentPane.add(username);
+		username.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblPassword.setBounds(78, 128, 46, 14);
-		frame.getContentPane().add(lblPassword);
+		lblPassword.setBounds(110, 191, 78, 16);
+		contentPane.add(lblPassword);
 		
-		password = new JTextField();
-		password.setBounds(156, 125, 171, 20);
-		frame.getContentPane().add(password);
-		password.setColumns(10);
+		password = new JPasswordField();
+		password.setBounds(218, 191, 196, 22);
+		contentPane.add(password);
 		
-		JButton submit = new JButton("Submit");
-		submit.addActionListener(new ActionListener() {
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String query="insert into user(username,password) values(?,?);";
@@ -90,15 +84,23 @@ public class Reg {
 					pst.execute();
 					JOptionPane.showMessageDialog(null, "Register success");
 					pst.close();
+					setVisible(false);
 				}catch (Exception e)
 				{
 					JOptionPane.showMessageDialog(null, e);
 				}
-				
 			}
-			
 		});
-		submit.setBounds(156, 192, 89, 23);
-		frame.getContentPane().add(submit);
+		btnSubmit.setBounds(218, 288, 97, 25);
+		contentPane.add(btnSubmit);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
+		btnCancel.setBounds(338, 288, 97, 25);
+		contentPane.add(btnCancel);
 	}
 }

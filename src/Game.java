@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Game {
 
@@ -9,7 +10,7 @@ public class Game {
 	
 	public int rating;
 	
-	public Review[] reviews;
+	public ArrayList<Review> reviews = new ArrayList<Review>(10);
 	
 	public String youtubeLink;
 	

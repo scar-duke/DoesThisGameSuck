@@ -85,7 +85,7 @@ public class Login {
 						JOptionPane.showMessageDialog(null, "Duplicate Username and password");
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "Username and password is not correct Try Again..");
+						JOptionPane.showMessageDialog(null, "Username and password is not correct. Try Again");
 					}
 					rs.close();
 					pst.close();
@@ -116,7 +116,7 @@ public class Login {
 		password.setBounds(160, 167, 264, 23);
 		frame.getContentPane().add(password);
 		
-		JLabel lblDoesThisGames = new JLabel("Does This Games Suck");
+		JLabel lblDoesThisGames = new JLabel("Does This Game Suck");
 		lblDoesThisGames.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblDoesThisGames.setBounds(174, 37, 234, 36);
 		frame.getContentPane().add(lblDoesThisGames);

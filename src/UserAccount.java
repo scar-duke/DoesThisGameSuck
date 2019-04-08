@@ -14,11 +14,11 @@ public class UserAccount {
 	public Wishlist[] userWishlist = new Wishlist[15];
 	
 	public boolean writeReview(Game reviewedGame, String writtenReview) { //Method should likely contain a rating parameter as well.
-		reviewedGame.reviews
+		reviewedGame.reviews;
 	}
 	
 	public boolean addToWishlist(Game desiredGame) {
-		
+		return false;
 	}
 	
 	private boolean checkPassword(String attempt) {

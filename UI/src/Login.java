@@ -79,13 +79,14 @@ public class Login {
 					}
 					if(count==1) {
 						JOptionPane.showMessageDialog(null,"Username and password is correct");
+						frame.setVisible(false);
 					}
 					else if(count>1)
 					{
 						JOptionPane.showMessageDialog(null, "Duplicate Username and password");
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "Username and password is not correct. Try Again");
+						JOptionPane.showMessageDialog(null, "Username and password is not correct Try Again..");
 					}
 					rs.close();
 					pst.close();
@@ -113,11 +114,10 @@ public class Login {
 		usename.setColumns(10);
 		
 		password = new JPasswordField();
-		password.setEchoChar('*');
 		password.setBounds(160, 167, 264, 23);
 		frame.getContentPane().add(password);
 		
-		JLabel lblDoesThisGames = new JLabel("Does This Game Suck");
+		JLabel lblDoesThisGames = new JLabel("Does This Games Suck");
 		lblDoesThisGames.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblDoesThisGames.setBounds(174, 37, 234, 36);
 		frame.getContentPane().add(lblDoesThisGames);
@@ -129,5 +129,15 @@ public class Login {
 		JLabel lblNewLabel = new JLabel("Password");
 		lblNewLabel.setBounds(87, 169, 63, 19);
 		frame.getContentPane().add(lblNewLabel);
+		
+		JButton btnRegister = new JButton("Register");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Reg reg=new Reg();
+				reg.setVisible(true);
+			}
+		});
+		btnRegister.setBounds(311, 231, 97, 25);
+		frame.getContentPane().add(btnRegister);
 	}
 }

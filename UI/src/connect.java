@@ -10,7 +10,6 @@ public class connect {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection conn=DriverManager.getConnection("jdbc:sqlite:database\\app.sqlite");
-			JOptionPane.showMessageDialog(null,"Connection Successful");
 			return conn;
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(null,e);

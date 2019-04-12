@@ -117,7 +117,7 @@ public class Login {
 		password.setBounds(160, 167, 264, 23);
 		frame.getContentPane().add(password);
 		
-		JLabel lblDoesThisGames = new JLabel("Does This Game Suck");
+		JLabel lblDoesThisGames = new JLabel("Does This Games Suck");
 		lblDoesThisGames.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblDoesThisGames.setBounds(174, 37, 234, 36);
 		frame.getContentPane().add(lblDoesThisGames);

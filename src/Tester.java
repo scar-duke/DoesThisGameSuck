@@ -5,22 +5,25 @@ import org.junit.jupiter.api.Test;
 
 class Tester {
 
-	@Test
-	public void testWriteReview() {
+	@BeforeAll
+	public void defineObjects() {
 		public UserAccount userTest = new UserAccount();
+		public UserAccount userTest2 = new UserAccount();
+		public UserAccount userTest3 = new UserAccount();
+		public UserAccount userTest4 = new UserAccount();
+		public UserAccount userTest5 = new UserAccount();
 		public Game gameTest = new Game();
 		public Game gameTest2 = new Game();
+	}
 		
-		assertTrue(userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3));
-		
-		/*assertFalse(userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3));
-		assertFalse(userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 2));
-		assertFalse(userTest.writeReview(gameTest, "REVIEW CONTENT TEST ALTERED", 3));
-		assertFalse(userTest.writeReview(gameTest, "REVIEW CONTENT TEST ALTERED", 2)); *///UI should prevent multiple reviews from being written, not the method
+	
+	@Test
+	public void testWriteReview() {
+		userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3);
 		
 		assertEquals(1, userTest.reviewsHistory.size());
 		
-		assertTrue(userTest.writeReview(gameTest2, "REVIEW CONTENT TEST", 3));
+		userTest.writeReview(gameTest2, "REVIEW CONTENT TEST", 3);
 		
 		assertEquals(2, userTest.reviewsHistory.size());
 		
@@ -29,12 +32,6 @@ class Tester {
 	
 	@Test
 	public void testAverageRating() {
-		UserAccount userTest = new UserAccount();
-		UserAccount userTest2 = new UserAccount();
-		UserAccount userTest3 = new UserAccount();
-		UserAccount userTest4 = new UserAccount();
-		UserAccount userTest5 = new UserAccount();
-		Game gameTest = new Game();
 		
 		userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3);
 		

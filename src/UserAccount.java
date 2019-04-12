@@ -9,11 +9,7 @@ public class UserAccount {
 	public String username;
 	private String password;
 	
-	public enum userRole{
-		ADMINISTRATOR,
-		MODERATOR,
-		USER
-	}
+	public Role userRole;
 	
 	public ArrayList<Review> reviewsHistory = new ArrayList<Review>(5);
 	

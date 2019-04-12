@@ -22,7 +22,7 @@ public class Game {
 			total += r.rating;
 		}
 		
-		int avg = total/reviews.size();
+		int avg = (int) ((double) total/reviews.size() + .5);
 		
 		rating = avg;
 	}

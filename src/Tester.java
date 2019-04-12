@@ -7,9 +7,9 @@ class Tester {
 
 	@Test
 	public void testWriteReview() {
-		UserAccount userTest = new UserAccount();
-		Game gameTest = new Game();
-		Game gameTest2 = new Game();
+		public UserAccount userTest = new UserAccount();
+		public Game gameTest = new Game();
+		public Game gameTest2 = new Game();
 		
 		assertTrue(userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3));
 		

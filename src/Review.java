@@ -1,13 +1,13 @@
 
 public class Review {
 
-	UserAccount submittedUser;
+	public int submittedUser;
 	
 	String text;
 	String date;
 	int rating;
 	
-	public Review(UserAccount submitter, String reviewText, String reviewDate, int reviewRating) {
+	public Review(int submitter, String reviewText, String reviewDate, int reviewRating) {
 		submittedUser = submitter;
 		text = reviewText;
 		date = reviewDate;

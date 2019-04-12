@@ -9,6 +9,7 @@ public class Game {
 	public String releaseDate;
 	
 	public int rating;
+	public int gameID;
 	
 	public ArrayList<Review> reviews = new ArrayList<Review>(10);
 	

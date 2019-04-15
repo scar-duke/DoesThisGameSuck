@@ -51,7 +51,7 @@ public class Reg extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblRegistor = new JLabel("Registor");
+		JLabel lblRegistor = new JLabel("Register");
 		lblRegistor.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblRegistor.setBounds(237, 40, 123, 35);
 		contentPane.add(lblRegistor);

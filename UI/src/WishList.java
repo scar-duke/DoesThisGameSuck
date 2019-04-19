@@ -76,7 +76,7 @@ public class WishList extends JFrame {
 			ArrayList<Integer> gid=new ArrayList<Integer>();
 			String query="select g.gametitle from game as g join wishlist as w where w.gameid=g.gameid AND w.userid=?";  //from user where username= xx and !(1=1 and password=1)";
 			
-			PreparedStatement pst=connection.prepareStatement(query);
+			PreparedStatement pst=connection.prepareStatement(query);// find the game title to display in the list
 			
 			pst.setInt(1, userid);
 			
@@ -85,13 +85,13 @@ public class WishList extends JFrame {
 			
 			while(rs.next()) {
 				count+=1;
-				dlm.addElement(rs.getString(count));
+				dlm.addElement(rs.getString(count));// add all game in wishlist and show in jlist
 			}
 			list.setModel(dlm);
 			
 			JButton btnNewButton = new JButton("Go");
 			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e) {//when you click go, it will go to the game page 
 					
 					if(!list.isSelectionEmpty()) {
 						
@@ -135,7 +135,7 @@ public class WishList extends JFrame {
 		
 		JButton delete = new JButton("Delete");
 		delete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {// when you select game and click delete, it will delete game from database and delete form Jlist
 				
 				if(!list.isSelectionEmpty()) {
 					PreparedStatement p=null;

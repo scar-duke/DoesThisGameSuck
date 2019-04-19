@@ -52,7 +52,9 @@ public class Login {
 		initialize();
 		connection=connect.dbConnector();
 		
+		
 	}
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -68,11 +70,15 @@ public class Login {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String query="select * from user where username=? and password=?";
+					String query="select * from user where username=? and password=?";  //from user where username= xx and !(1=1 and password=1)";
+					String nam="select userid from user where username=?";
 					PreparedStatement pst=connection.prepareStatement(query);
+					PreparedStatement pst1=connection.prepareStatement(nam);
+					pst1.setString(1, usename.getText());
 					pst.setString(1, usename.getText());
 					pst.setString(2, password.getText());
 					ResultSet rs=pst.executeQuery();
+					ResultSet rs1=pst1.executeQuery();
 					int count=0;
 					while(rs.next()) {
 						count+=1;
@@ -80,6 +86,8 @@ public class Login {
 					if(count==1) {
 						JOptionPane.showMessageDialog(null,"Username and password is correct");
 						frame.setVisible(false);
+						search search=new search(rs1.getInt(count),usename.getText());
+						search.setVisible(true);
 					}
 					else if(count>1)
 					{
@@ -88,8 +96,12 @@ public class Login {
 					else {
 						JOptionPane.showMessageDialog(null, "Username and password is not correct Try Again..");
 					}
+					rs1.close();
+					pst1.close();
 					rs.close();
 					pst.close();
+					
+					
 				}catch (Exception e)
 				{
 					JOptionPane.showMessageDialog(null, e);
@@ -117,7 +129,7 @@ public class Login {
 		password.setBounds(160, 167, 264, 23);
 		frame.getContentPane().add(password);
 		
-		JLabel lblDoesThisGames = new JLabel("Does This Game Suck");
+		JLabel lblDoesThisGames = new JLabel("Does This Games Suck");
 		lblDoesThisGames.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblDoesThisGames.setBounds(174, 37, 234, 36);
 		frame.getContentPane().add(lblDoesThisGames);

@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import javax.swing.*;
-
+// From youtube video
 public class connect {
 	Connection conn=null;
 	

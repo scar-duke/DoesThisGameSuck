@@ -77,7 +77,7 @@ public class Reg extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String query="insert into user(username,password) values(?,?);";
+					String query="insert into user(username,password) values(?,?)";
 					PreparedStatement pst=connection.prepareStatement(query);
 					pst.setString(1, username.getText());
 					pst.setString(2, password.getText());

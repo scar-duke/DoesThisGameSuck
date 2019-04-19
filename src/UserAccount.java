@@ -26,12 +26,4 @@ public class UserAccount {
 		return true;
 	}
 	
-	private boolean confirmPassword(String attempt) {
-		if(attempt.equals(password)) {					//Basic, unencrypted stand-in without SQL
-			return true;
-		}
-		
-		return false;
-	}
-	
 }

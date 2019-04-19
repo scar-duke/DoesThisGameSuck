@@ -1,24 +1,17 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class Tester {
-
-	@BeforeAll
-	public void defineObjects() {
-		public UserAccount userTest = new UserAccount();
-		public UserAccount userTest2 = new UserAccount();
-		public UserAccount userTest3 = new UserAccount();
-		public UserAccount userTest4 = new UserAccount();
-		public UserAccount userTest5 = new UserAccount();
-		public Game gameTest = new Game();
-		public Game gameTest2 = new Game();
-	}
-		
 	
 	@Test
 	public void testWriteReview() {
+		
+		UserAccount userTest = new UserAccount();
+		
+		Game gameTest = new Game();
+		Game gameTest2 = new Game();
+		
 		userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3);
 		
 		assertEquals(1, userTest.reviewsHistory.size());
@@ -32,6 +25,14 @@ class Tester {
 	
 	@Test
 	public void testAverageRating() {
+		
+		UserAccount userTest = new UserAccount();
+		UserAccount userTest2 = new UserAccount();
+		UserAccount userTest3 = new UserAccount();
+		UserAccount userTest4 = new UserAccount();
+		UserAccount userTest5 = new UserAccount();
+		
+		Game gameTest = new Game();
 		
 		userTest.writeReview(gameTest, "REVIEW CONTENT TEST", 3);
 		

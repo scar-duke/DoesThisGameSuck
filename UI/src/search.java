@@ -21,6 +21,8 @@ public class search extends JFrame {
 	private JTextField text;
 	Connection connection=null;
 	private JLabel lblNewLabel;
+	private static int userid;
+	private static String usern="";
 
 	/**
 	 * Launch the application.
@@ -29,7 +31,7 @@ public class search extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					search frame = new search();
+					search frame = new search(userid,usern);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,17 +43,20 @@ public class search extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public search() {
+	public search(int userid,String usern) {
+		this.usern=usern;
+		this.userid=userid;
+		int count=0;
 		connection=connect.dbConnector();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 602, 425);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		text = new JTextField();
-		text.setBounds(109, 110, 147, 22);
+		text.setBounds(166, 110, 199, 22);
 		contentPane.add(text);
 		text.setColumns(10);
 		
@@ -68,7 +73,7 @@ public class search extends JFrame {
 					if(rs.next()) {
 						count+=1;
 						gameid=rs.getInt(count);
-						Game game=new Game(gameid);
+						Game game=new Game(gameid,userid,usern);
 						game.setVisible(true);
 					}
 					else {
@@ -82,12 +87,24 @@ public class search extends JFrame {
 				}
 			}
 		});
-		search.setBounds(268, 109, 97, 25);
+		search.setBounds(420, 109, 97, 25);
 		contentPane.add(search);
+		
+		JButton wish = new JButton("WishList");
+		wish.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				WishList wl=new WishList(userid,usern);
+				wl.setVisible(true);
+				
+			}
+		});
+		wish.setBounds(10, 11, 89, 23);
+		contentPane.add(wish);
 		
 		lblNewLabel = new JLabel("Search");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblNewLabel.setBounds(137, 37, 137, 25);
+		lblNewLabel.setBounds(228, 35, 137, 25);
 		contentPane.add(lblNewLabel);
 	}
 

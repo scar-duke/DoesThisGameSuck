@@ -14,6 +14,10 @@ import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class search extends JFrame {
 
@@ -23,6 +27,7 @@ public class search extends JFrame {
 	private JLabel lblNewLabel;
 	private static int userid;
 	private static String usern="";
+	private JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -49,14 +54,15 @@ public class search extends JFrame {
 		int count=0;
 		connection=connect.dbConnector();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 602, 425);
+		setBounds(100, 100, 720, 428);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.ORANGE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		text = new JTextField();
-		text.setBounds(166, 110, 199, 22);
+		text.setBounds(140, 201, 373, 22);
 		contentPane.add(text);
 		text.setColumns(10);
 		
@@ -87,7 +93,7 @@ public class search extends JFrame {
 				}
 			}
 		});
-		search.setBounds(420, 109, 97, 25);
+		search.setBounds(553, 200, 97, 25);
 		contentPane.add(search);
 		
 		JButton wish = new JButton("WishList");
@@ -102,10 +108,21 @@ public class search extends JFrame {
 		wish.setBounds(10, 11, 89, 23);
 		contentPane.add(wish);
 		
-		lblNewLabel = new JLabel("Search");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblNewLabel.setBounds(228, 35, 137, 25);
+		lblNewLabel = new JLabel("Games Search");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblNewLabel.setBounds(243, 83, 259, 25);
 		contentPane.add(lblNewLabel);
+		
+		panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setBounds(226, 73, 202, 50);
+		contentPane.add(panel);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Game Title", "Publisher"}));
+		comboBox.setBounds(33, 202, 97, 20);
+		contentPane.add(comboBox);
 	}
-
 }
+

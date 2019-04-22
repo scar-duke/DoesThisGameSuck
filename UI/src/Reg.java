@@ -15,6 +15,9 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.SystemColor;
 
 public class Reg extends JFrame {
 
@@ -45,32 +48,35 @@ public class Reg extends JFrame {
 	public Reg() {
 		connection=connect.dbConnector();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 611, 422);
+		setBounds(100, 100, 720, 428);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblRegistor = new JLabel("Register");
+		JLabel lblRegistor = new JLabel("Registor");
 		lblRegistor.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblRegistor.setBounds(237, 40, 123, 35);
 		contentPane.add(lblRegistor);
 		
 		JLabel lblUsername = new JLabel("Username");
-		lblUsername.setBounds(110, 119, 78, 16);
+		lblUsername.setForeground(Color.WHITE);
+		lblUsername.setBounds(412, 116, 78, 16);
 		contentPane.add(lblUsername);
 		
 		username = new JTextField();
-		username.setBounds(218, 116, 196, 22);
+		username.setBounds(412, 143, 254, 29);
 		contentPane.add(username);
 		username.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(110, 191, 78, 16);
+		lblPassword.setForeground(Color.WHITE);
+		lblPassword.setBounds(412, 187, 78, 16);
 		contentPane.add(lblPassword);
 		
 		password = new JPasswordField();
-		password.setBounds(218, 191, 196, 22);
+		password.setBounds(412, 214, 254, 29);
 		contentPane.add(password);
 		
 		JButton btnSubmit = new JButton("Submit");
@@ -91,16 +97,50 @@ public class Reg extends JFrame {
 				}
 			}
 		});
-		btnSubmit.setBounds(218, 288, 97, 25);
+		btnSubmit.setBounds(415, 299, 97, 25);
 		contentPane.add(btnSubmit);
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setBackground(SystemColor.activeCaption);
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
-		btnCancel.setBounds(338, 288, 97, 25);
+		btnCancel.setBounds(547, 299, 97, 25);
 		contentPane.add(btnCancel);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBackground(Color.ORANGE);
+		panel.setBounds(0, 0, 346, 499);
+		contentPane.add(panel);
+		
+		JLabel label = new JLabel("Does");
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		label.setBounds(134, 31, 231, 46);
+		panel.add(label);
+		
+		JLabel label_1 = new JLabel("This");
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		label_1.setBounds(64, 74, 116, 90);
+		panel.add(label_1);
+		
+		JLabel label_2 = new JLabel("Game");
+		label_2.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		label_2.setBounds(179, 155, 124, 46);
+		panel.add(label_2);
+		
+		JLabel label_3 = new JLabel("Suck?");
+		label_3.setFont(new Font("Tahoma", Font.PLAIN, 38));
+		label_3.setBounds(82, 212, 144, 69);
+		panel.add(label_3);
+		
+		JLabel lblRegister = new JLabel("DoesThisGameSuck Register");
+		lblRegister.setForeground(Color.WHITE);
+		lblRegister.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblRegister.setBounds(378, 33, 347, 40);
+		contentPane.add(lblRegister);
 	}
 }

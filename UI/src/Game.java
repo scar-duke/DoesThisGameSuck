@@ -246,7 +246,7 @@ public class Game extends JFrame {
 		JButton btnNewButton = new JButton("Comment");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Comment c=new Comment(gameid,gname,userid,usern);
+				Review c=new Review(gameid,gname,userid,usern);
 				c.setVisible(true);
 				setVisible(false);
 			}
@@ -292,4 +292,3 @@ public class Game extends JFrame {
 	}
 	
 }
-

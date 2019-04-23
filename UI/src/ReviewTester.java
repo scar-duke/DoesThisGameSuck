@@ -35,6 +35,7 @@ class ReviewTester {
 		assertTrue(result.length() > 0);									//Conditional to ensure that a review exists in the database
 	}
 	
+	@test
 	void testGetRating() {
 		Review test1 = new Review(1, "GAMETEST1", 1, "USERTEST1", 3);		//Various definitions and checks to ensure that the correct review average is returned
 		

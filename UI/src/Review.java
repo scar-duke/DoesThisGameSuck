@@ -123,7 +123,7 @@ public class Review extends JFrame {
 			pst.setInt(1, gameid);
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()) {
-			    if(rs.getString(1)!=null)
+			    if(rs.getString(1)!=null)// if other users' review does not have review text, then it will not show up
 				dlm.addElement(getusername(rs.getInt(3))+"("+rs.getInt(2)+") : "+rs.getString(1)+"\n");// with username and their rate for this game
 			}
 			
@@ -146,8 +146,8 @@ public class Review extends JFrame {
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(isadd()) {//check does this user add review to this game before
-					if(gettext()==null) {
-						writeReview(textField.getText());//if not they can submit review text
+					if(gettext()==null) {//if they add review before but never submit review text
+						writeReview(textField.getText());//they can submit review text
 						list.setModel(dlm);}}
 				else {
 					writeReview(textField.getText());
@@ -204,7 +204,7 @@ public class Review extends JFrame {
 		}
 	}
 	
-	private void addreview(int rate) {
+	private void addreview(int rate) {// add review to review class
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
@@ -282,7 +282,7 @@ public class Review extends JFrame {
 		return is;
 	}
 	
-	private String gettext() {
+	private String gettext() {// get other users' review text
 		String text="";
 		try {
 			String query="select reviewtext from reviews where gameid=? and userid=?";

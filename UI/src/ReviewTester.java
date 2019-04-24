@@ -53,7 +53,7 @@ class ReviewTester {
 		
 		assertEquals(2, Review.getRating(1));
 		
-		Review test4 = new Review(1, "GAMETEST1", 4, "USERTEST4", 5);
+		Review test4b = new Review(1, "GAMETEST1", 4, "USERTEST4", 5);
                 
                 assertEquals(2, Review.getRating(1));
 		

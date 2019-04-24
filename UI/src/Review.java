@@ -59,9 +59,7 @@ public class Review extends JFrame {
 	 * Create the frame.
 	 */
 	
-	
-		
-	private String getusername(int userid) {
+	private String getusername(int userid) {//get username by user id
 		String x="";
 		try {
 			String query="select username from user where userid=?";
@@ -82,17 +80,21 @@ public class Review extends JFrame {
 		}
 		return x;
 	}
+		
+
 	DefaultListModel dlm=new DefaultListModel();
 	
-	public Review(int gameid,String gname,int userid,String usern,int rate) {
+	public Review(int gameid,String gname,int userid,String usern,int rate) {//Review class carry game id, game name, userid, user name and rate
 		connection=connect.dbConnector();
 		this.gameid=gameid;
 		this.gname=gname;
 		this.userid=userid;
 		this.usern=usern;
 		this.rate=rate;
-		if(isadd())
-			addreview(rate);
+		if(!isadd())//check does this user add review to this game before
+			addreview(rate);//if this user doesn't add review before than add review to the game
+		int r=getRating(gameid);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 681, 492);
 		contentPane = new JPanel();
@@ -113,15 +115,16 @@ public class Review extends JFrame {
 		list.setBounds(10, 57, 633, 280);
 		contentPane.add(list);
 		
-		try {
-			String query="select reviewtext, userid from reviews where gameid=?";
+		try {// show all the reviews of this game
+			String query="select reviewtext,rating,userid from reviews where gameid=?";
 			int count=0;
 
 			PreparedStatement pst=connection.prepareStatement(query);
 			pst.setInt(1, gameid);
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()) {
-				dlm.addElement(getusername(rs.getInt(2))+" : "+rs.getString(1)+"\n");
+			    if(rs.getString(1)!=null)
+				dlm.addElement(getusername(rs.getInt(3))+"("+rs.getInt(2)+") : "+rs.getString(1)+"\n");// with username and their rate for this game
 			}
 			
 			list.setModel(dlm);
@@ -142,10 +145,15 @@ public class Review extends JFrame {
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(isadd()) {
-				writeReview(textField.getText());
-				
-				list.setModel(dlm);}
+				if(isadd()) {//check does this user add review to this game before
+					if(gettext()==null) {
+						writeReview(textField.getText());//if not they can submit review text
+						list.setModel(dlm);}}
+				else {
+					writeReview(textField.getText());
+					list.setModel(dlm);
+				}
+					
 			}
 		});
 		submit.setBounds(554, 393, 89, 23);
@@ -162,15 +170,25 @@ public class Review extends JFrame {
 		btnBack.setBounds(10, 11, 89, 23);
 		contentPane.add(btnBack);
 		
+		JLabel lblNewLabel = new JLabel("Rate :");
+		lblNewLabel.setBounds(497, 22, 37, 21);
+		contentPane.add(lblNewLabel);
+		
+		JLabel rr = new JLabel("<html>"+r+"<html>");
+		rr.setBounds(544, 25, 46, 14);
+		contentPane.add(rr);
+		
+		
+		
 	}
 	
-	void writeReview(String review) {
+	private void writeReview(String review) {//add review text to the game
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
 			String q="UPDATE reviews set reviewtext= \'"+textField.getText()+"\'"+" where gameid="+gameid+" and userid="+userid;
 			stmt.executeUpdate(q);
-			dlm.addElement(usern+" : "+review+"\n");
+			dlm.addElement(usern+"("+rate+")"+ " : "+review+"\n");
 			}
 		 catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -186,7 +204,7 @@ public class Review extends JFrame {
 		}
 	}
 	
-	void addreview(int rate) {
+	private void addreview(int rate) {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
@@ -208,21 +226,24 @@ public class Review extends JFrame {
 		}
 	}
 	
-	static int getRating(int gameid) {
+	static int getRating(int gameid) {// get rating by id
 		int averagerate=0;
+		int count=0;
 		try {
 			String query="select rating from reviews where gameid=?";
-			int count=0;
+			
 			int totalrate=0;
 			PreparedStatement pst=connection.prepareStatement(query);
 			pst.setInt(1, gameid);
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()) {
-				count++;
+				count+=1;
 				totalrate+=rs.getInt(1);
 			}
-			
-			averagerate=totalrate/count;
+			if(count==0) {
+				averagerate=0;}
+			else {
+			averagerate=totalrate/count;}
 			
 			rs.close();
 			pst.close();
@@ -234,11 +255,12 @@ public class Review extends JFrame {
 		return averagerate;
 	}
 	
-	boolean isadd() {
-		boolean is=false;
+	private boolean isadd() {//check this user have review before or not
+		boolean is=true;
+		int count=0;
 		try {
 			String query="select * from reviews where gameid=? and userid=?";
-			int count=0;
+			
 
 			PreparedStatement pst=connection.prepareStatement(query);
 			pst.setInt(1, gameid);
@@ -248,7 +270,7 @@ public class Review extends JFrame {
 				count++;
 			}
 			if(count==0)
-				is=true;
+				is=false;
 			
 			rs.close();
 			pst.close();
@@ -260,7 +282,27 @@ public class Review extends JFrame {
 		return is;
 	}
 	
+	private String gettext() {
+		String text="";
+		try {
+			String query="select reviewtext from reviews where gameid=? and userid=?";
+			int count=0;
+
+			PreparedStatement pst=connection.prepareStatement(query);
+			pst.setInt(1, gameid);
+			pst.setInt(2, userid);
+			ResultSet rs=pst.executeQuery();
+			if(rs.next())
+				text=rs.getString(1);
+			
+			rs.close();
+			pst.close();
+
+		}catch (Exception a)
+		{
+			JOptionPane.showMessageDialog(null, a);
+		}
+		return text;
+	}
 	
-
-
 }

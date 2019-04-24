@@ -249,7 +249,7 @@ public class Game extends JFrame {
 		
 		
 		JComboBox stars = new JComboBox();
-		stars.setModel(new DefaultComboBoxModel(new String[] {"1/5", "2/5","3/5", "4/5","5/5"}));
+		stars.setModel(new DefaultComboBoxModel(new String[] {"0/5","1/5", "2/5","3/5", "4/5","5/5"}));
 		stars.setBounds(638, 418, 89, 22);
 		contentPane.add(stars);
 		
@@ -258,6 +258,9 @@ public class Game extends JFrame {
 		JButton btnNewButton = new JButton("Reviews");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(String.valueOf(stars.getSelectedItem()).equals("0/5")) {
+					rate=0;
+				}
 				if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
 					rate=1;
 				}

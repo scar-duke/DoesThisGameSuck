@@ -15,16 +15,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JTextPane;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
 
 public class Game extends JFrame {
 
 	private JPanel contentPane;
+	private int rate=0;
 	private static int gameid;
 	private static int userid;
 	private String gname="";
@@ -243,10 +246,35 @@ public class Game extends JFrame {
 		year.setBounds(507, 66, 110, 14);
 		contentPane.add(year);
 		
-		JButton btnNewButton = new JButton("Comment");
+		
+		
+		JComboBox stars = new JComboBox();
+		stars.setModel(new DefaultComboBoxModel(new String[] {"1/5", "2/5","3/5", "4/5","5/5"}));
+		stars.setBounds(638, 418, 89, 22);
+		contentPane.add(stars);
+		
+		
+		
+		JButton btnNewButton = new JButton("Reviews");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Review c=new Review(gameid,gname,userid,usern);
+				if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
+					rate=1;
+				}
+				if(String.valueOf(stars.getSelectedItem()).equals("2/5")) {
+					rate=2;
+				}
+				if(String.valueOf(stars.getSelectedItem()).equals("3/5")) {
+					rate=3;
+				}
+				if(String.valueOf(stars.getSelectedItem()).equals("4/5")) {
+					rate=4;
+				}
+				if(String.valueOf(stars.getSelectedItem()).equals("5/5")) {
+					rate=5;
+				}
+				
+				Review c=new Review(gameid,gname,userid,usern,rate);
 				c.setVisible(true);
 				setVisible(false);
 			}
@@ -256,6 +284,7 @@ public class Game extends JFrame {
 		
 		
 	}
+	
 	
 	private boolean exist() {
 		int count2=0;
@@ -290,5 +319,5 @@ public class Game extends JFrame {
 		search search=new search(userid,usern);
 		search.setVisible(true);
 	}
-	
 }
+

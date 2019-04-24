@@ -53,6 +53,10 @@ class ReviewTester {
 		
 		assertEquals(2, Review.getRating(1));
 		
+		Review test4 = new Review(1, "GAMETEST1", 4, "USERTEST4", 5);
+                
+                assertEquals(2, Review.getRating(1));
+		
 		Review test5 = new Review(2, "GAMETEST2", 5, "USERTEST5", 5);		//Definition and check for one game's average not affected that of another game
 		
 		assertEquals(5, Review.getRating(2));

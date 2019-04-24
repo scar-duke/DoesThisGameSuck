@@ -55,7 +55,7 @@ public class Game extends JFrame {
 	 * Create the frame.
 	 */
 	
-	private void gamename() {
+	private void gamename() { //get the game name from database by game id
 		try {
 			String query="select gametitle from game where gameid="+gameid;
 			int count=0;
@@ -78,7 +78,7 @@ public class Game extends JFrame {
 		}
 	}
 	
-	private String years() {
+	private String years() { //get the releasedata of the game from database by gameid
 		try {
 			String query="select releasedata from game where gameid="+gameid;
 			int count=0;
@@ -102,7 +102,7 @@ public class Game extends JFrame {
 		return year;
 	}
 	
-	private void data() {
+	private void data() { //get the description of the game from database by game id
 		int count=0;
 		try {
 
@@ -132,7 +132,7 @@ public class Game extends JFrame {
 		}
 	}
 	
-	private void getpublish() {
+	private void getpublish() { //get the publisher of the game from database by game id
 		int count2=0;
 		try {
 
@@ -156,7 +156,7 @@ public class Game extends JFrame {
 		}
 	}
 	
-	public Game(int gameid, int userid,String usern) {
+	public Game(int gameid, int userid,String usern) { //Game class carry a game id, user id and user name
 		this.userid=userid;
 		this.usern=usern;
 		this.gameid=gameid;
@@ -184,7 +184,7 @@ public class Game extends JFrame {
 		date.setBounds(507, 31, 110, 23);
 		contentPane.add(date);
 		
-		JLabel de = new JLabel("<html>"+described+"</html>");
+		JLabel de = new JLabel("<html>"+described+"</html>");// show the describtion in JLabel
 		de.setBackground(Color.WHITE);
 		de.setBounds(114, 87, 503, 395);
 		contentPane.add(de);
@@ -193,7 +193,7 @@ public class Game extends JFrame {
 		Search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				search();
+				search();//back to search page
 			}
 		});
 		Search.setBounds(10, 11, 89, 23);
@@ -201,12 +201,12 @@ public class Game extends JFrame {
 		
 		JButton add = new JButton("Add ");
 		add.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {// when user click add
 				Statement stmt = null;
-				if(exist()) {
+				if(exist()) {//if user doesn't have this game in wishlist
 				try {
 					stmt=connection.createStatement();
-					String q="INSERT INTO wishlist (gameid, userid) VALUES ("+gameid+", "+userid+")";
+					String q="INSERT INTO wishlist (gameid, userid) VALUES ("+gameid+", "+userid+")";//add this game to wishlist table with gameid and userid
 					stmt.execute(q);
 					JOptionPane.showMessageDialog(null, "Successful Add");
 					}
@@ -249,7 +249,7 @@ public class Game extends JFrame {
 		
 		
 		JComboBox stars = new JComboBox();
-		stars.setModel(new DefaultComboBoxModel(new String[] {"0/5","1/5", "2/5","3/5", "4/5","5/5"}));
+		stars.setModel(new DefaultComboBoxModel(new String[] {"0/5","1/5", "2/5","3/5", "4/5","5/5"}));//a combo box with 0~5 score for choice
 		stars.setBounds(638, 418, 89, 22);
 		contentPane.add(stars);
 		
@@ -258,9 +258,7 @@ public class Game extends JFrame {
 		JButton btnNewButton = new JButton("Reviews");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(String.valueOf(stars.getSelectedItem()).equals("0/5")) {
-					rate=0;
-				}
+			
 				if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
 					rate=1;
 				}
@@ -276,7 +274,8 @@ public class Game extends JFrame {
 				if(String.valueOf(stars.getSelectedItem()).equals("5/5")) {
 					rate=5;
 				}
-				
+				else
+					rate=0;//depend on the combo box above decide what's the value of rate.
 				Review c=new Review(gameid,gname,userid,usern,rate);
 				c.setVisible(true);
 				setVisible(false);
@@ -289,7 +288,7 @@ public class Game extends JFrame {
 	}
 	
 	
-	private boolean exist() {
+	private boolean exist() {// check does the user already has this game in their wish list
 		int count2=0;
 		try {
 
@@ -317,7 +316,7 @@ public class Game extends JFrame {
 		return false;
 	}
 	
-	private void search() {
+	private void search() {// back to search page
 		setVisible(false);
 		search search=new search(userid,usern);
 		search.setVisible(true);

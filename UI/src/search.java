@@ -81,12 +81,14 @@ public class search extends JFrame {
 						gameid=rs.getInt(count);
 						Game game=new Game(gameid,userid,usern);
 						game.setVisible(true);
+						setVisible(false);
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Can't find any results");
+						setVisible(true);
 					}
 					pst.close();
-					setVisible(false);
+					
 				}catch (Exception a)
 				{
 					JOptionPane.showMessageDialog(null, a);

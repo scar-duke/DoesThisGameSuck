@@ -40,13 +40,13 @@ public class Review extends JFrame {
 	private static int userid;
 	private static String usern="";
 	private String text="";
-	private JTextField textField;
 	private static int rate;
+	private static String comment="";
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Review frame = new Review(gameid,gname,userid,usern,rate);
+					Review frame = new Review(gameid,gname,userid,usern,rate,comment);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,16 +84,20 @@ public class Review extends JFrame {
 
 	DefaultListModel dlm=new DefaultListModel();
 	
-	public Review(int gameid,String gname,int userid,String usern,int rate) {//Review class carry game id, game name, userid, user name and rate
+	public Review(int gameid,String gname,int userid,String usern,int rate,String comment) {//Review class carry game id, game name, userid, user name and rate
 		connection=connect.dbConnector();
 		this.gameid=gameid;
 		this.gname=gname;
 		this.userid=userid;
 		this.usern=usern;
 		this.rate=rate;
-		if(!isadd())//check does this user add review to this game before
-			addreview(rate);//if this user doesn't add review before than add review to the game
+		this.comment=comment;
+		if(!isadd()) {//check does this user add review to this game before
+			addreview(rate,comment);
+		}//if this user doesn't add review before than add review to the game
 		int r=getRating(gameid);
+		
+		addratetogame(r);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 681, 492);
@@ -123,7 +127,7 @@ public class Review extends JFrame {
 			pst.setInt(1, gameid);
 			ResultSet rs=pst.executeQuery();
 			while(rs.next()) {
-			    if(rs.getString(1)!=null)// if other users' review does not have review text, then it will not show up
+			    if(rs.getString(1)!=null)
 				dlm.addElement(getusername(rs.getInt(3))+"("+rs.getInt(2)+") : "+rs.getString(1)+"\n");// with username and their rate for this game
 			}
 			
@@ -136,28 +140,6 @@ public class Review extends JFrame {
 		{
 			JOptionPane.showMessageDialog(null, a);
 		}
-		
-		textField = new JTextField();
-		textField.setBounds(10, 387, 518, 35);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton submit = new JButton("Submit");
-		submit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(isadd()) {//check does this user add review to this game before
-					if(gettext()==null) {//if they add review before but never submit review text
-						writeReview(textField.getText());//they can submit review text
-						list.setModel(dlm);}}
-				else {
-					writeReview(textField.getText());
-					list.setModel(dlm);
-				}
-					
-			}
-		});
-		submit.setBounds(554, 393, 89, 23);
-		contentPane.add(submit);
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
@@ -186,9 +168,8 @@ public class Review extends JFrame {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
-			String q="UPDATE reviews set reviewtext= \'"+textField.getText()+"\'"+" where gameid="+gameid+" and userid="+userid;
+			String q="UPDATE reviews set reviewtext= \'"+review+"\'"+" where gameid="+gameid+" and userid="+userid;
 			stmt.executeUpdate(q);
-			dlm.addElement(usern+"("+rate+")"+ " : "+review+"\n");
 			}
 		 catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -204,11 +185,11 @@ public class Review extends JFrame {
 		}
 	}
 	
-	private void addreview(int rate) {// add review to review class
+	private void addreview(int rate,String comment) {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
-			String q="INSERT INTO reviews (gameid,userid,rating) VALUES ("+gameid+", "+userid+","+rate+")";
+			String q="INSERT INTO reviews (gameid,userid,rating,reviewtext) VALUES ("+gameid+", "+userid+","+rate+",\'"+comment+"\')";
 			stmt.executeUpdate(q);
 			
 			}
@@ -282,7 +263,7 @@ public class Review extends JFrame {
 		return is;
 	}
 	
-	private String gettext() {// get other users' review text
+	private String gettext() {
 		String text="";
 		try {
 			String query="select reviewtext from reviews where gameid=? and userid=?";
@@ -303,6 +284,27 @@ public class Review extends JFrame {
 			JOptionPane.showMessageDialog(null, a);
 		}
 		return text;
+	}
+	
+	private void addratetogame(int rate) {
+		Statement stmt = null;
+		try {
+			stmt=connection.createStatement();
+			String q="UPDATE game set rating="+rate+" where gameid="+gameid;
+			stmt.executeUpdate(q);
+			}
+		 catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 	
 }

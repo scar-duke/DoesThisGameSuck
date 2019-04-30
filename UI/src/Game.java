@@ -1,3 +1,4 @@
+    
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -51,11 +52,12 @@ public class Game extends JFrame {
 		});
 	}
 	Connection connection=null;
+	private JTextField comment;
 	/**
 	 * Create the frame.
 	 */
 	
-	private void gamename() { //get the game name from database by game id
+	private void gamename() {//get the game name from database by game id
 		try {
 			String query="select gametitle from game where gameid="+gameid;
 			int count=0;
@@ -102,7 +104,7 @@ public class Game extends JFrame {
 		return year;
 	}
 	
-	private void data() { //get the description of the game from database by game id
+	private void data() {//get the description of the game from database by game id
 		int count=0;
 		try {
 
@@ -132,7 +134,7 @@ public class Game extends JFrame {
 		}
 	}
 	
-	private void getpublish() { //get the publisher of the game from database by game id
+	private void getpublish() {//get the publisher of the game from database by game id
 		int count2=0;
 		try {
 
@@ -156,7 +158,7 @@ public class Game extends JFrame {
 		}
 	}
 	
-	public Game(int gameid, int userid,String usern) { //Game class carry a game id, user id and user name
+	public Game(int gameid, int userid,String usern) {//Game class carry a game id, user id and user name
 		this.userid=userid;
 		this.usern=usern;
 		this.gameid=gameid;
@@ -201,12 +203,12 @@ public class Game extends JFrame {
 		
 		JButton add = new JButton("Add ");
 		add.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {// when user click add
+			public void actionPerformed(ActionEvent e) {
 				Statement stmt = null;
 				if(exist()) {//if user doesn't have this game in wishlist
 				try {
 					stmt=connection.createStatement();
-					String q="INSERT INTO wishlist (gameid, userid) VALUES ("+gameid+", "+userid+")";//add this game to wishlist table with gameid and userid
+					String q="INSERT INTO wishlist (gameid, userid) VALUES ("+gameid+", "+userid+")";
 					stmt.execute(q);
 					JOptionPane.showMessageDialog(null, "Successful Add");
 					}
@@ -249,16 +251,22 @@ public class Game extends JFrame {
 		
 		
 		JComboBox stars = new JComboBox();
-		stars.setModel(new DefaultComboBoxModel(new String[] {"0/5","1/5", "2/5","3/5", "4/5","5/5"}));//a combo box with 0~5 score for choice
-		stars.setBounds(638, 418, 89, 22);
+		stars.setModel(new DefaultComboBoxModel(new String[] {"0/5","1/5", "2/5","3/5", "4/5","5/5"}));
+		stars.setBounds(20, 508, 89, 22);
 		contentPane.add(stars);
+		
+		
+		comment = new JTextField();
+		comment.setBounds(119, 509, 503, 22);
+		contentPane.add(comment);
+		comment.setColumns(10);
 		
 		
 		
 		JButton btnNewButton = new JButton("Reviews");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			
+				
 				if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
 					rate=1;
 				}
@@ -276,7 +284,8 @@ public class Game extends JFrame {
 				}
 				else
 					rate=0;//depend on the combo box above decide what's the value of rate.
-				Review c=new Review(gameid,gname,userid,usern,rate);
+				
+				Review c=new Review(gameid,gname,userid,usern,rate,comment.getText());
 				c.setVisible(true);
 				setVisible(false);
 			}
@@ -284,9 +293,41 @@ public class Game extends JFrame {
 		btnNewButton.setBounds(638, 508, 89, 23);
 		contentPane.add(btnNewButton);
 		
+		JLabel rating = new JLabel(getrate());
+		rating.setBounds(10, 45, 128, 31);
+		contentPane.add(rating);
+		
+
 		
 	}
 	
+	private String getrate() {
+		int rate=0;
+		int count=0;
+		try {
+			String query="select rating from game where gameid=?";
+			
+			int totalrate=0;
+			PreparedStatement pst=connection.prepareStatement(query);
+			pst.setInt(1, gameid);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				count++;
+				rate=rs.getInt(1);
+			}
+			if(count==0) {
+				return "Rate : No reviews yet";}
+			
+			
+			rs.close();
+			pst.close();
+
+		}catch (Exception a)
+		{
+			JOptionPane.showMessageDialog(null, a);
+		}
+		return "Rate : "+rate;
+	}
 	
 	private boolean exist() {// check does the user already has this game in their wish list
 		int count2=0;
@@ -322,4 +363,5 @@ public class Game extends JFrame {
 		search.setVisible(true);
 	}
 }
+
 

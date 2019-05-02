@@ -62,7 +62,7 @@ public class Review extends JFrame {
 	private String getusername(int userid) {//get username by user id
 		String x="";
 		try {
-			String query="select username from user where userid=?";
+			String query="select username from userAccount where userID=?";
 
 			PreparedStatement pst=connection.prepareStatement(query);
 			pst.setInt(1, userid);
@@ -120,7 +120,7 @@ public class Review extends JFrame {
 		contentPane.add(list);
 		
 		try {// show all the reviews of this game
-			String query="select reviewtext,rating,userid from reviews where gameid=?";
+			String query="select reviewText,rating,userID from review where gameID=?";
 			int count=0;
 
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -168,7 +168,7 @@ public class Review extends JFrame {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
-			String q="UPDATE reviews set reviewtext= \'"+review+"\'"+" where gameid="+gameid+" and userid="+userid;
+			String q="UPDATE review set reviewText= \'"+review+"\'"+" where gameID="+gameid+" and userID="+userid;
 			stmt.executeUpdate(q);
 			}
 		 catch (SQLException e1) {
@@ -189,7 +189,7 @@ public class Review extends JFrame {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
-			String q="INSERT INTO reviews (gameid,userid,rating,reviewtext) VALUES ("+gameid+", "+userid+","+rate+",\'"+comment+"\')";
+			String q="INSERT INTO review (gameID,userID,rating,reviewText) VALUES ("+gameid+", "+userid+","+rate+",\'"+comment+"\')";
 			stmt.executeUpdate(q);
 			
 			}
@@ -211,7 +211,7 @@ public class Review extends JFrame {
 		int averagerate=0;
 		int count=0;
 		try {
-			String query="select rating from reviews where gameid=?";
+			String query="select rating from review where gameID=?";
 			
 			int totalrate=0;
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -240,7 +240,7 @@ public class Review extends JFrame {
 		boolean is=true;
 		int count=0;
 		try {
-			String query="select * from reviews where gameid=? and userid=?";
+			String query="select * from review where gameID=? and userID=?";
 			
 
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -266,7 +266,7 @@ public class Review extends JFrame {
 	private String gettext() {
 		String text="";
 		try {
-			String query="select reviewtext from reviews where gameid=? and userid=?";
+			String query="select reviewText from review where gameID=? and userID=?";
 			int count=0;
 
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -290,7 +290,7 @@ public class Review extends JFrame {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
-			String q="UPDATE game set rating="+rate+" where gameid="+gameid;
+			String q="UPDATE game set rating="+rate+" where gameID="+gameid;
 			stmt.executeUpdate(q);
 			}
 		 catch (SQLException e1) {
@@ -308,3 +308,4 @@ public class Review extends JFrame {
 	}
 	
 }
+

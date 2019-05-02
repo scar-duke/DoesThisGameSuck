@@ -22,6 +22,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.SystemColor;
 
 public class WishList extends JFrame {
 
@@ -75,12 +76,14 @@ public class WishList extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JList list = new JList();
-		list.setBounds(223, 83, 226, 405);
+		list.setForeground(Color.WHITE);
+		list.setBackground(SystemColor.windowBorder);
+		list.setBounds(39, 95, 449, 427);
 		contentPane.add(list);
 		DefaultListModel dlm=new DefaultListModel();
 		try {
 			ArrayList<Integer> gid=new ArrayList<Integer>();
-			String query="select g.gametitle from game as g join wishlist as w where w.gameid=g.gameid AND w.userid=?";  //from user where username= xx and !(1=1 and password=1)";
+			String query="select g.gameTitle from game as g join wishlist as w where w.gameid=g.gameID AND w.userID=?";  //from user where username= xx and !(1=1 and password=1)";
 			
 			PreparedStatement pst=connection.prepareStatement(query);
 			
@@ -100,7 +103,7 @@ public class WishList extends JFrame {
 					if(!list.isSelectionEmpty()) {
 						
 						try {
-							String q="select gameid from game where gametitle=\""+list.getSelectedValue()+"\"";
+							String q="select gameID from game where gameTitle=\""+list.getSelectedValue()+"\"";
 							PreparedStatement p=connection.prepareStatement(q);
 							ResultSet r=p.executeQuery();
 							id=r.getInt(1);
@@ -122,7 +125,7 @@ public class WishList extends JFrame {
 					
 				}
 			});
-			btnNewButton.setBounds(533, 147, 136, 84);
+			btnNewButton.setBounds(554, 450, 120, 25);
 			contentPane.add(btnNewButton);
 			
 			
@@ -148,11 +151,11 @@ public class WishList extends JFrame {
 					Statement stmt = null;
 					
 					try {
-						String q="select gameid from game where gametitle=\""+list.getSelectedValue()+"\"";
+						String q="select gameID from game where gameTitle=\""+list.getSelectedValue()+"\"";
 						p=connection.prepareStatement(q);
 						r=p.executeQuery();
 						id=r.getInt(1);
-						q="delete from wishlist where gameid="+id+" and userid= "+userid;
+						q="delete from wishlist where gameID="+id+" and userID= "+userid;
 						stmt=connection.createStatement();
 						stmt.execute(q);
 						JOptionPane.showMessageDialog(null, "Delete successfull");
@@ -184,7 +187,7 @@ public class WishList extends JFrame {
 
 			}
 		});
-		delete.setBounds(43, 147, 118, 84);
+		delete.setBounds(554, 497, 120, 25);
 		contentPane.add(delete);
 		
 		JButton btnNewButton_1 = new JButton("Back");
@@ -195,8 +198,7 @@ public class WishList extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnNewButton_1.setBounds(611, 7, 89, 23);
+		btnNewButton_1.setBounds(589, 34, 89, 23);
 		contentPane.add(btnNewButton_1);
 	}
 }
-

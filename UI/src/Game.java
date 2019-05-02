@@ -59,7 +59,7 @@ public class Game extends JFrame {
 	
 	private void gamename() {//get the game name from database by game id
 		try {
-			String query="select gametitle from game where gameid="+gameid;
+			String query="select gameTitle from game where gameID="+gameid;
 			int count=0;
 			
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -82,7 +82,7 @@ public class Game extends JFrame {
 	
 	private String years() { //get the releasedata of the game from database by gameid
 		try {
-			String query="select releasedata from game where gameid="+gameid;
+			String query="select releaseDate from game where gameID="+gameid;
 			int count=0;
 			
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -108,7 +108,7 @@ public class Game extends JFrame {
 		int count=0;
 		try {
 
-			String queryd="select description from game where gameid="+gameid;
+			String queryd="select description from game where gameID="+gameid;
 
 			
 
@@ -138,7 +138,7 @@ public class Game extends JFrame {
 		int count2=0;
 		try {
 
-			String querydate="select publisher from game where gameid="+gameid;
+			String querydate="select publisher from game where gameID="+gameid;
 
 			PreparedStatement pstdate=connection.prepareStatement(querydate);
 			ResultSet rsdate=pstdate.executeQuery();
@@ -208,7 +208,7 @@ public class Game extends JFrame {
 				if(exist()) {//if user doesn't have this game in wishlist
 				try {
 					stmt=connection.createStatement();
-					String q="INSERT INTO wishlist (gameid, userid) VALUES ("+gameid+", "+userid+")";
+					String q="INSERT INTO wishlist (gameID, userID) VALUES ("+gameid+", "+userid+")";
 					stmt.execute(q);
 					JOptionPane.showMessageDialog(null, "Successful Add");
 					}
@@ -305,7 +305,7 @@ public class Game extends JFrame {
 		int rate=0;
 		int count=0;
 		try {
-			String query="select rating from game where gameid=?";
+			String query="select rating from game where gameID=?";
 			
 			int totalrate=0;
 			PreparedStatement pst=connection.prepareStatement(query);
@@ -333,7 +333,7 @@ public class Game extends JFrame {
 		int count2=0;
 		try {
 
-			String querydate="select * from wishlist where gameid="+gameid+" and userid="+userid;
+			String querydate="select * from wishlist where gameID="+gameid+" and userID="+userid;
 
 			PreparedStatement pstdate=connection.prepareStatement(querydate);
 			ResultSet rsdate=pstdate.executeQuery();
@@ -363,5 +363,3 @@ public class Game extends JFrame {
 		search.setVisible(true);
 	}
 }
-
-

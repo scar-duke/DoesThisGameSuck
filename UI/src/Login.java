@@ -70,8 +70,8 @@ public class Login {
 	private int getcount() {
 		int count=0;
 		try {
-			String query="select * from user where username=? and password=?";  //from user where username= xx and !(1=1 and password=1)";
-			String nam="select userid from user where username=?";
+			String query="select * from userAccount where username=? and password=?";  //from user where username= xx and !(1=1 and password=1)";
+			String nam="select userid from userAccount where username=?";
 			PreparedStatement pst=connection.prepareStatement(query);
 			PreparedStatement pst1=connection.prepareStatement(nam);
 			pst1.setString(1, usename.getText());

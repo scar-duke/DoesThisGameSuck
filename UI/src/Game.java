@@ -19,8 +19,19 @@ import javax.swing.JTextPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+
+
+import java.net.URL;
+
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+
+
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -162,7 +173,9 @@ public class Game extends JFrame {
 		this.userid=userid;
 		this.usern=usern;
 		this.gameid=gameid;
+		
 		connection=connect.dbConnector();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 753, 581);
 		contentPane = new JPanel();
@@ -266,38 +279,148 @@ public class Game extends JFrame {
 		JButton btnNewButton = new JButton("Reviews");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
-					rate=1;
-				}
-				if(String.valueOf(stars.getSelectedItem()).equals("2/5")) {
-					rate=2;
-				}
-				if(String.valueOf(stars.getSelectedItem()).equals("3/5")) {
-					rate=3;
-				}
-				if(String.valueOf(stars.getSelectedItem()).equals("4/5")) {
-					rate=4;
-				}
-				if(String.valueOf(stars.getSelectedItem()).equals("5/5")) {
-					rate=5;
-				}
-				else
-					rate=0;//depend on the combo box above decide what's the value of rate.
-				
-				Review c=new Review(gameid,gname,userid,usern,rate,comment.getText());
+				Review c=new Review(gameid,gname,userid,usern);
 				c.setVisible(true);
 				setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(638, 508, 89, 23);
+		btnNewButton.setBounds(622, 45, 89, 23);
 		contentPane.add(btnNewButton);
-		
+
 		JLabel rating = new JLabel(getrate());
 		rating.setBounds(10, 45, 128, 31);
 		contentPane.add(rating);
 		
+		JButton submit = new JButton("Submit");
+		submit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!isadd()) {
+					if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
+						rate=1;
+					}
+					if(String.valueOf(stars.getSelectedItem()).equals("2/5")) {
+						rate=2;
+					}
+					if(String.valueOf(stars.getSelectedItem()).equals("3/5")) {
+						rate=3;
+					}
+					if(String.valueOf(stars.getSelectedItem()).equals("4/5")) {
+						rate=4;
+					}
+					if(String.valueOf(stars.getSelectedItem()).equals("5/5")) {
+						rate=5;
+					}
+					else
+						rate=0;//depend on the combo box above decide what's the value of rate.
+					addreview(rate,comment.getText());
+					updatarating();
+					rating.setText(getrate());
+					JOptionPane.showMessageDialog(null, "Submit Successfully");
+				}
+				else
+					JOptionPane.showMessageDialog(null, "You can only submit review once");
+			}
+		});
+		submit.setBounds(622, 508, 89, 23);
+		contentPane.add(submit);
+		
+		JButton btnNewButton_1 = new JButton("Youtube");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					Desktop dt=Desktop.getDesktop();
+					String l=link();
+					dt.browse(new URI(l));
+				} catch (IOException | URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		btnNewButton_1.setBounds(622, 82, 89, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JLabel lblNewLabel_1 = new JLabel(link());
+		lblNewLabel_1.setBounds(10, 468, 362, 29);
+		contentPane.add(lblNewLabel_1);
+		
 
+		
+	}
+	
+	private String link() {
+		String link = null;
+		try {
+			String query="select youtubeLink from game where gameID=?";
+			
+
+			PreparedStatement pst=connection.prepareStatement(query);
+			pst.setInt(1, gameid);
+			ResultSet rs=pst.executeQuery();
+			if(rs.next()) {
+				link=rs.getString(1);
+			}
+			
+			
+			rs.close();
+			pst.close();
+
+		}catch (Exception a)
+		{
+			JOptionPane.showMessageDialog(null, a);
+		}
+		return link;
+	}
+	
+	
+	private void updatarating() {// get rating by id
+		int averagerate=0;
+		int count=0;
+		try {
+			String query="select rating from review where gameID=?";
+			
+			int totalrate=0;
+			PreparedStatement pst=connection.prepareStatement(query);
+			pst.setInt(1, gameid);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				count+=1;
+				totalrate+=rs.getInt(1);
+			}
+			if(count==0) {
+				averagerate=0;}
+			else {
+			averagerate=totalrate/count;}
+			
+			rs.close();
+			pst.close();
+
+		}catch (Exception a)
+		{
+			JOptionPane.showMessageDialog(null, a);
+		}
+		
+		Statement stmt = null;
+		try {
+			stmt=connection.createStatement();
+			String q="UPDATE game set rating="+averagerate+" where gameID="+gameid;
+			stmt.executeUpdate(q);
+			}
+		 catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
 		
 	}
 	
@@ -356,6 +479,57 @@ public class Game extends JFrame {
 		}
 		return false;
 	}
+	
+	private boolean isadd() {//check this user have review before or not
+		boolean is=true;
+		int count=0;
+		try {
+			String query="select * from review where gameID=? and userID=?";
+			
+
+			PreparedStatement pst=connection.prepareStatement(query);
+			pst.setInt(1, gameid);
+			pst.setInt(2, userid);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next()) {
+				count++;
+			}
+			if(count==0)
+				is=false;
+			
+			rs.close();
+			pst.close();
+
+		}catch (Exception a)
+		{
+			JOptionPane.showMessageDialog(null, a);
+		}
+		return is;
+	}
+	
+	private void addreview(int rate,String comment) {
+		Statement stmt = null;
+		try {
+			stmt=connection.createStatement();
+			String q="INSERT INTO review (gameID,userID,rating,reviewText) VALUES ("+gameid+", "+userid+","+rate+",\'"+comment+"\')";
+			stmt.executeUpdate(q);
+			
+			}
+		 catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	
 	
 	private void search() {// back to search page
 		setVisible(false);

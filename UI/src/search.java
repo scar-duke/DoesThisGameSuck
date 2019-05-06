@@ -75,7 +75,7 @@ public class search extends JFrame {
 		text.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Game Title", "Publisher"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"gameTitle", "publisher","genre"}));
 		comboBox.setSelectedIndex(0);
 		comboBox.setBounds(31, 156, 97, 20);
 		contentPane.add(comboBox);
@@ -84,57 +84,23 @@ public class search extends JFrame {
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(String.valueOf(comboBox.getSelectedItem()).equals("Game Title")) {
-				try {
-					int gameid = 0;
-					int count=0;;
-					String query="select gameID from game where gameTitle=?";
-					PreparedStatement pst=connection.prepareStatement(query);
-					pst.setString(1, text.getText());
-					ResultSet rs=pst.executeQuery();
-					if(rs.next()) {
-						count+=1;
-						gameid=rs.getInt(count);
-						Game game=new Game(gameid,userid,usern);
-						game.setVisible(true);
-						setVisible(false);
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Can't find any results");
-						setVisible(true);
-					}
-					pst.close();
+				if(String.valueOf(comboBox.getSelectedItem()).equals("gameTitle")) {
+					searchResult sr=new searchResult(userid,usern,"gameTitle",text.getText());
+					sr.setVisible(true);
+					setVisible(false);
 					
-				}catch (Exception a)
-				{
-					JOptionPane.showMessageDialog(null, a);
-				}}
+				}
 				
-				if(String.valueOf(comboBox.getSelectedItem()).equals("Publisher")) {
-					try {
-						int gameid = 0;
-						int count=0;;
-						String query="select gameID from game where publisher=?";
-						PreparedStatement pst=connection.prepareStatement(query);
-						pst.setString(1, text.getText());
-						ResultSet rs=pst.executeQuery();
-						if(rs.next()) {
-							count+=1;
-							gameid=rs.getInt(count);
-							Game game=new Game(gameid,userid,usern);
-							game.setVisible(true);
-							setVisible(false);
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Can't find any results");
-							setVisible(true);
-						}
-						pst.close();
-						
-					}catch (Exception a)
-					{
-						JOptionPane.showMessageDialog(null, a);
-					}
+				if(String.valueOf(comboBox.getSelectedItem()).equals("publisher")) {
+					searchResult sr=new searchResult(userid,usern,"publisher",text.getText());
+					sr.setVisible(true);
+					setVisible(false);
+				}
+				
+				if(String.valueOf(comboBox.getSelectedItem()).equals("genre")) {
+					searchResult sr=new searchResult(userid,usern,"genre",text.getText());
+					sr.setVisible(true);
+					setVisible(false);
 				}
 			}
 		});

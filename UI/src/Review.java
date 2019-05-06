@@ -46,7 +46,7 @@ public class Review extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Review frame = new Review(gameid,gname,userid,usern,rate,comment);
+					Review frame = new Review(gameid,gname,userid,usern);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,20 +84,14 @@ public class Review extends JFrame {
 
 	DefaultListModel dlm=new DefaultListModel();
 	
-	public Review(int gameid,String gname,int userid,String usern,int rate,String comment) {//Review class carry game id, game name, userid, user name and rate
+	public Review(int gameid,String gname,int userid,String usern) {//Review class carry game id, game name, userid, user name and rate
 		connection=connect.dbConnector();
 		this.gameid=gameid;
 		this.gname=gname;
 		this.userid=userid;
 		this.usern=usern;
-		this.rate=rate;
-		this.comment=comment;
-		if(!isadd()) {//check does this user add review to this game before
-			addreview(rate,comment);
-		}//if this user doesn't add review before than add review to the game
 		int r=getRating(gameid);
 		
-		addratetogame(r);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 681, 492);
@@ -164,48 +158,9 @@ public class Review extends JFrame {
 		
 	}
 	
-	private void writeReview(String review) {//add review text to the game
-		Statement stmt = null;
-		try {
-			stmt=connection.createStatement();
-			String q="UPDATE review set reviewText= \'"+review+"\'"+" where gameID="+gameid+" and userID="+userid;
-			stmt.executeUpdate(q);
-			}
-		 catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}finally {
-			try {
-				stmt.close();
 
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
 	
-	private void addreview(int rate,String comment) {
-		Statement stmt = null;
-		try {
-			stmt=connection.createStatement();
-			String q="INSERT INTO review (gameID,userID,rating,reviewText) VALUES ("+gameid+", "+userid+","+rate+",\'"+comment+"\')";
-			stmt.executeUpdate(q);
-			
-			}
-		 catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}finally {
-			try {
-				stmt.close();
-
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
+	
 	
 	static int getRating(int gameid) {// get rating by id
 		int averagerate=0;
@@ -236,32 +191,8 @@ public class Review extends JFrame {
 		return averagerate;
 	}
 	
-	private boolean isadd() {//check this user have review before or not
-		boolean is=true;
-		int count=0;
-		try {
-			String query="select * from review where gameID=? and userID=?";
-			
-
-			PreparedStatement pst=connection.prepareStatement(query);
-			pst.setInt(1, gameid);
-			pst.setInt(2, userid);
-			ResultSet rs=pst.executeQuery();
-			while(rs.next()) {
-				count++;
-			}
-			if(count==0)
-				is=false;
-			
-			rs.close();
-			pst.close();
-
-		}catch (Exception a)
-		{
-			JOptionPane.showMessageDialog(null, a);
-		}
-		return is;
-	}
+	
+	
 	
 	private String gettext() {
 		String text="";
@@ -286,26 +217,6 @@ public class Review extends JFrame {
 		return text;
 	}
 	
-	private void addratetogame(int rate) {
-		Statement stmt = null;
-		try {
-			stmt=connection.createStatement();
-			String q="UPDATE game set rating="+rate+" where gameID="+gameid;
-			stmt.executeUpdate(q);
-			}
-		 catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}finally {
-			try {
-				stmt.close();
-
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
 	
 }
 

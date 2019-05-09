@@ -85,8 +85,10 @@ public class searchResult extends JFrame {
 		
 		sort.addItemListener(new ItemListener() {
 	        public void itemStateChanged(ItemEvent e) {
-	           
-	            getresult( title, result,"releaseDate");
+	           if(String.valueOf(sort.getSelectedItem()).equals("rating"))
+	            getresult( title, result,"rating");
+	           if(String.valueOf(sort.getSelectedItem()).equals("releaseDate"))
+	        	   getresult( title, result,"releaseDate");
 	            
 	            
 	        }

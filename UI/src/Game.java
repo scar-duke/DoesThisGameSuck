@@ -264,7 +264,7 @@ public class Game extends JFrame {
 		
 		
 		JComboBox stars = new JComboBox();
-		stars.setModel(new DefaultComboBoxModel(new String[] {"0/5","1/5", "2/5","3/5", "4/5","5/5"}));
+		stars.setModel(new DefaultComboBoxModel(new String[] {"0","1", "2","3", "4","5"}));
 		stars.setBounds(20, 508, 89, 22);
 		contentPane.add(stars);
 		
@@ -295,19 +295,19 @@ public class Game extends JFrame {
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!isadd()) {
-					if(String.valueOf(stars.getSelectedItem()).equals("1/5")) {
+					if(String.valueOf(stars.getSelectedItem()).equals("1")) {
 						rate=1;
 					}
-					if(String.valueOf(stars.getSelectedItem()).equals("2/5")) {
+					if(String.valueOf(stars.getSelectedItem()).equals("2")) {
 						rate=2;
 					}
-					if(String.valueOf(stars.getSelectedItem()).equals("3/5")) {
+					if(String.valueOf(stars.getSelectedItem()).equals("3")) {
 						rate=3;
 					}
-					if(String.valueOf(stars.getSelectedItem()).equals("4/5")) {
+					if(String.valueOf(stars.getSelectedItem()).equals("4")) {
 						rate=4;
 					}
-					if(String.valueOf(stars.getSelectedItem()).equals("5/5")) {
+					if(String.valueOf(stars.getSelectedItem()).equals("5")) {
 						rate=5;
 					}
 					else
@@ -328,10 +328,15 @@ public class Game extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				
 				try {
 					Desktop dt=Desktop.getDesktop();
+					String ll="https://www.youtube.com/watch?v=b5-_MvCWSfI";
+					
 					String l=link();
-					dt.browse(new URI(l));
+					int leng=l.length()+1;
+					
+					dt.browse(new URI(l.substring(0, 43)));
 				} catch (IOException | URISyntaxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -351,7 +356,7 @@ public class Game extends JFrame {
 	}
 	
 	private String link() {
-		String link = null;
+		String link = "";
 		try {
 			String query="select youtubeLink from game where gameID=?";
 			
@@ -359,7 +364,7 @@ public class Game extends JFrame {
 			PreparedStatement pst=connection.prepareStatement(query);
 			pst.setInt(1, gameid);
 			ResultSet rs=pst.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				link=rs.getString(1);
 			}
 			

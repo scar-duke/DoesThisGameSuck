@@ -97,6 +97,29 @@ public class Login {
 		return count;
 	}
 	
+	private String getRole() {
+		int count=0;
+		String role="";
+		try {
+			String query="select userRole from userAccount where userID="+userid;  //from user where username= xx and !(1=1 and password=1)";
+			
+			PreparedStatement pst=connection.prepareStatement(query);
+			ResultSet rs=pst.executeQuery();
+			
+			if(rs.next()) {
+				role=rs.getString(1);
+			}
+			rs.close();
+			pst.close();
+			
+			
+		}catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e);
+		}
+		return role;
+	}
+	
 	
 	
 	
@@ -116,10 +139,23 @@ public class Login {
 			public void actionPerformed(ActionEvent arg0) {
 
 					if(getcount()==1) {
+						if(getRole().equals("User")) {
 						JOptionPane.showMessageDialog(null,"Username and password is correct");
 						frame.setVisible(false);
 						search search=new search(userid,usename.getText());
 						search.setVisible(true);
+						}
+						else {
+							if(getRole().equals("block")) {
+								JOptionPane.showMessageDialog(null,"Your Account is blocked");
+							}
+							else {
+								Developer d=new Developer();
+								d.setVisible(true);
+								frame.setVisible(false);
+							}
+						}
+							
 					}
 					else if(getcount()>1)
 					{

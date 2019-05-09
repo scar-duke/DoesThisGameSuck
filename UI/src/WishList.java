@@ -200,5 +200,16 @@ public class WishList extends JFrame {
 		});
 		btnNewButton_1.setBounds(589, 34, 89, 23);
 		contentPane.add(btnNewButton_1);
+		
+		JButton request = new JButton("Game Request");
+		request.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				request r=new request(userid,usern);
+				r.setVisible(true);
+				setVisible(false);
+			}
+		});
+		request.setBounds(554, 219, 120, 25);
+		contentPane.add(request);
 	}
 }

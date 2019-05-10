@@ -228,14 +228,6 @@ public class Game extends JFrame {
 				 catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}finally {
-					try {
-						stmt.close();
-
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 				}
 				}
 				else
@@ -295,6 +287,7 @@ public class Game extends JFrame {
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!isadd()) {
+					if(!String.valueOf(stars.getSelectedItem()).equals("0")) {
 					if(String.valueOf(stars.getSelectedItem()).equals("1")) {
 						rate=1;
 					}
@@ -309,7 +302,7 @@ public class Game extends JFrame {
 					}
 					if(String.valueOf(stars.getSelectedItem()).equals("5")) {
 						rate=5;
-					}
+					}}
 					else
 						rate=0;//depend on the combo box above decide what's the value of rate.
 					addreview(rate,comment.getText());

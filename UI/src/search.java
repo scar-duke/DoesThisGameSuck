@@ -194,7 +194,7 @@ public class search extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id=0;
-				if(!list.isSelectionEmpty()) {
+				if(!trend.isSelectionEmpty()) {
 					
 					try {
 						String q="select gameID from game where gameTitle=\""+trend.getSelectedValue()+"\"";

@@ -509,7 +509,7 @@ public class Game extends JFrame {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
-			String q="INSERT INTO review (gameID,userID,rating,reviewText) VALUES ("+gameid+", "+userid+","+rate+",\'"+comment+"\')";
+			String q="INSERT INTO review (gameID,userID,rating,reviewText) VALUES ("+gameid+", "+userid+","+rate+",\""+comment+"\")";
 			stmt.executeUpdate(q);
 			
 			}

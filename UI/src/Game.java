@@ -512,7 +512,7 @@ public class Game extends JFrame {
 		return is;
 	}
 	
-	private void addreview(int rate,String comment) {
+	void addreview(int rate,String comment) {
 		Statement stmt = null;
 		try {
 			stmt=connection.createStatement();
